@@ -161,6 +161,8 @@ El agente debería:
 
 > **Importante:** la constitución retroactiva describe el proyecto **tal cual es**, no tal como te gustaría que fuera. El `roadmap.md` sí mira hacia adelante — las features pendientes, no las ya hechas.
 
+> **Importante para el prompt:** dile explícitamente al agente que **use su herramienta de preguntas** ( `AskUserQuestion` en Claude Code, `question` en opencode, o la que tenga tu coding agent) antes de escribir los archivos. Si no se lo pides, algunos agentes escriben directo y alucinan decisiones. Ejemplo: *"Crea la constitución en `specs/`. **Debes** usar tu herramienta de preguntas antes de escribir."*
+
 #### Paso 3: Feature Spec de lo Próximo
 
 Con la constitución lista, usas el feature-spec skill normalmente. La diferencia es que el feature-spec ahora **convive con código legacy** — y está bien.
