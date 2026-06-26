@@ -1,34 +1,33 @@
 # Spec-Driven Development Kit
 
-**Plantilla para iniciar cualquier proyecto usando Spec-Driven Development con AI coding agents.**
+**Template to start any project using Spec-Driven Development with AI coding agents.**
 
-Este repo contiene los elementos esenciales del curso [Spec-Driven Development de DeepLearning.AI](https://www.deeplearning.ai/courses/), limpios de código específico de AgentClinic. Úsalo como punto de partida para nuevos proyectos.
+This repo contains the essential elements from the [Spec-Driven Development course by DeepLearning.AI](https://www.deeplearning.ai/courses/), cleaned of AgentClinic-specific code. Use it as a starting point for new projects.
 
-## ¿Qué incluye?
+## What's included?
 
-| Carpeta | Contenido |
-|---------|-----------|
-| `prompts/` | Todos los prompts del curso organizados por lección |
-| `example_specs/` | Ejemplos de documentos de especificación (misión, tech stack) |
-| `skills/` | Skills reutilizables para el agente (changelog, feature-spec) |
+| Folder | Contents |
+|--------|----------|
+| `prompts/` | All course prompts organized by lesson |
+| `example_specs/` | Example specification documents (mission, tech stack) |
+| `skills/` | Reusable agent skills (changelog, feature-spec) |
 
-## Cómo usar
+## How to use
 
-1. Copia esta carpeta como base para tu proyecto:
+1. Copy this folder as the base for your project:
 
 ```bash
-cp -r sc-spec-driven-development-files/ mi-nuevo-proyecto/
-cd mi-nuevo-proyecto
+cp -r sc-spec-driven-development-files/ my-new-project/
+cd my-new-project
 ```
 
-2. Escribe tu `README.md` con el contexto de tu proyecto y stakeholder input.
+2. Write your `README.md` with your project context and stakeholder input.
 
-3. Usa un AI coding agent (opencode, Claude Code, etc.) con los prompts de `prompts/` para crear tu constitución (`specs/mission.md`, `tech-stack.md`, `roadmap.md`).
+3. Use an AI coding agent (opencode, Claude Code, etc.) with the prompts in `prompts/` to create your constitution (`specs/mission.md`, `tech-stack.md`, `roadmap.md`).
 
-4. Sigue el flujo SDD: Constitución → Feature Specs → Implementación → Validación.
+4. Follow the SDD flow: Constitution → Feature Specs → Implementation → Validation.
 
-## Requisitos
+## Requirements
 
-- Node.js (v18+)
 - Git
-- Un AI coding agent
+- An AI coding agent

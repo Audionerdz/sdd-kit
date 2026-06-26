@@ -1,258 +1,257 @@
-# Spec-Driven Development — Guía de Trabajo
+# Spec-Driven Development — Work Guide
 
-## ¿Qué es SDD?
+## What is SDD?
 
-Spec-Driven Development es un flujo donde **primero escribes la especificación, después el código**, usando un AI coding agent (opencode, Claude Code, etc.) que te guía con preguntas en cada paso.
+Spec-Driven Development is a workflow where **you write the specification first, then the code**, using an AI coding agent (opencode, Claude Code, etc.) that guides you with questions at each step.
 
-## El Pipeline Completo
+## The Complete Pipeline
 
 ```
-Constitución (fundación)
+Constitution (foundation)
     ↓
-Feature Specs (qué construir)
+Feature Specs (what to build)
     ↓
-Implementación (código)
+Implementation (code)
     ↓
-Validación (tests + revisión)
+Validation (tests + review)
     ↓
-Merge a main
+Merge to main
     ↓
-Siguiente feature → vuelve al paso 2
+Next feature → back to step 2
 ```
 
 ---
 
-## 1. Constitución — Los Documentos Fundacionales
+## 1. Constitution — The Foundational Documents
 
-Son 3 archivos en `specs/` que definen el proyecto antes de escribir código:
+These are 3 files in `specs/` that define the project before writing any code:
 
-| Archivo | Responde a |
-|---------|------------|
-| `specs/mission.md` | ¿Por qué existe? Propósito, stakeholders, audiencia objetivo |
-| `specs/tech-stack.md` | ¿Con qué lo construimos? Lenguaje, framework, base de datos, arquitectura |
-| `specs/roadmap.md` | ¿En qué orden? Fases pequeñas e implementables |
+| File | Answers |
+|------|---------|
+| `specs/mission.md` | Why does it exist? Purpose, stakeholders, target audience |
+| `specs/tech-stack.md` | What do we build it with? Language, framework, database, architecture |
+| `specs/roadmap.md` | In what order? Small, implementable phases |
 
-### ¿Cómo se crea?
+### How is it created?
 
-Le das al agente el **Prompt 1**: contexto del proyecto y stakeholder input. Luego el **Prompt 2**: "crea la constitución en `specs/`".
+You give the agent **Prompt 1**: project context and stakeholder input. Then **Prompt 2**: "create the constitution in `specs/`".
 
-El agente usa su herramienta de preguntas (equivalente a `AskUserQuestion`) para preguntarte sobre:
+The agent uses its question tool (equivalent to `AskUserQuestion`) to ask you about:
 
-1. **Misión** — propósito, problema que resuelve, usuarios
-2. **Tech Stack** — tecnologías, frameworks, base de datos
-3. **Roadmap** — fases de implementación en orden
+1. **Mission** — purpose, problem it solves, users
+2. **Tech Stack** — technologies, frameworks, database
+3. **Roadmap** — implementation phases in order
 
-Tú respondes y el agente escribe los 3 archivos.
+You answer and the agent writes the 3 files.
 
-> **Regla importante:** el agente debe preguntar ANTES de escribir. Si escribe directo, está alucinando decisiones que deberías tomar tú.
-
----
-
-## 2. Feature Spec — De la Constitución a la Especificación
-
-Una vez que la constitución está lista, cada nueva feature sigue el **feature-spec skill** (`skills/feature-spec/`):
-
-1. El agente lee `specs/roadmap.md` y encuentra la primera fase incompleta (`[ ]`)
-2. Crea un branch: `git checkout -b phase-N-nombre-de-la-fase`
-3. Te hace 3 preguntas agrupadas:
-   - **Scope** — qué incluye/excluye la feature, datos, comportamiento
-   - **Decisiones** — opciones de implementación, almacenamiento, UX
-   - **Contexto** — tono, restricciones, preguntas abiertas
-4. Lee `specs/mission.md` y `specs/tech-stack.md` para alinear la spec
-5. Crea `specs/YYYY-MM-DD-nombre/` con 3 archivos:
-   - `requirements.md` — alcance, decisiones, contexto
-   - `plan.md` — tareas agrupadas e implementables
-   - `validation.md` — cómo validar (tests, walkthrough, definition of done)
-
-> El branch se crea **antes** de escribir cualquier spec, para que todo el trabajo de la feature quede aislado.
+> **Important rule:** the agent must ask BEFORE writing. If it writes directly, it is hallucinating decisions that you should be making.
 
 ---
 
-## 3. Implementación — De la Spec al Código
+## 2. Feature Spec — From the Constitution to the Specification
 
-Con la spec lista, implementas siguiendo el `plan.md`. El agente:
+Once the constitution is ready, each new feature follows the **feature-spec skill** (`skills/feature-spec/`):
 
-1. Lee `requirements.md` y `plan.md`
-2. Implementa cada grupo de tareas
-3. Commitea frecuentemente en el mismo branch
-4. Cuando termina, ejecuta validación
+1. The agent reads `specs/roadmap.md` and finds the first incomplete phase (`[ ]`)
+2. Creates a branch: `git checkout -b phase-N-name-of-the-phase`
+3. Asks you 3 grouped questions:
+   - **Scope** — what the feature includes/excludes, data, behavior
+   - **Decisions** — implementation options, storage, UX
+   - **Context** — tone, constraints, open questions
+4. Reads `specs/mission.md` and `specs/tech-stack.md` to align the spec
+5. Creates `specs/YYYY-MM-DD-name/` with 3 files:
+   - `requirements.md` — scope, decisions, context
+   - `plan.md` — grouped and implementable tasks
+   - `validation.md` — how to validate (tests, walkthrough, definition of done)
 
----
-
-## 4. Validación — ¿Cumple la Spec?
-
-Se ejecuta `validation.md`:
-
-- **Automática** — tests, typecheck, lint
-- **Manual** — walkthrough de la feature, casos borde
-- Si algo falla → vuelve a implementación
-- Si todo pasa → merge a main
+> The branch is created **before** writing any spec, so all work on the feature stays isolated.
 
 ---
 
-## 5. Merge y Siguiente Feature
+## 3. Implementation — From the Spec to the Code
+
+With the spec ready, you implement following `plan.md`. The agent:
+
+1. Reads `requirements.md` and `plan.md`
+2. Implements each group of tasks
+3. Commits frequently on the same branch
+4. When done, runs validation
+
+---
+
+## 4. Validation — Does it Meet the Spec?
+
+`validation.md` is executed:
+
+- **Automatic** — tests, typecheck, lint
+- **Manual** — feature walkthrough, edge cases
+- If something fails → back to implementation
+- If everything passes → merge to main
+
+---
+
+## 5. Merge and Next Feature
 
 ```bash
-git checkout main          # te mueves a la rama destino (la que recibe los cambios)
-git merge phase-N-nombre   # fusiona la feature hacia main
-git branch -d phase-N-nombre
+git checkout main          # move to the target branch (the one receiving the changes)
+git merge phase-N-name     # merge the feature into main
+git branch -d phase-N-name
 ```
 
-> **¿Por qué `git checkout main` primero?** `git merge` fusiona **hacia la rama en la que estás parado**. Si estás en `phase-N-nombre` y haces `git merge phase-N-nombre`, estarías fusionando la rama contra sí misma. Siempre párate en la rama que va a **recibir** los cambios, no en la que los tiene.
+> **Why `git checkout main` first?** `git merge` merges **into the branch you are currently on**. If you are on `phase-N-name` and run `git merge phase-N-name`, you would be merging the branch into itself. Always stand on the branch that will **receive** the changes, not the one that has them.
 
-Actualiza `roadmap.md` marcando la fase como `[x]`. Repite desde el paso 2.
+Update `roadmap.md` marking the phase as `[x]`. Repeat from step 2.
 
 ---
 
-## Proyectos con Código Existente (Retroactivo)
+## Projects with Existing Code (Retroactive)
 
-Si el proyecto ya existe y nunca usaste SDD, no puedes ejecutar feature-spec porque no hay `mission.md` ni `tech-stack.md`. La solución:
+If the project already exists and you never used SDD, you cannot run feature-spec because there is no `mission.md` or `tech-stack.md`. The solution:
 
-### Crear la Constitución Retroactiva
+### Creating the Retroactive Constitution
 
-1. El agente analiza el código existente:
-   - Lee `package.json`, `tsconfig.json`, `Dockerfile`, etc.
-   - Examina la estructura de carpetas, dependencias, scripts
-   - Revisa el README y documentación existente
-   - Mira commits recientes para entender el estado actual
+1. The agent analyzes the existing code:
+   - Reads `package.json`, `tsconfig.json`, `Dockerfile`, etc.
+   - Examines the folder structure, dependencies, scripts
+   - Reviews the README and existing documentation
+   - Looks at recent commits to understand the current state
 
-2. El agente te pregunta para afinar:
-   - **Misión** — ¿para qué existe realmente el proyecto? (puede diferir de lo que dice el README)
-   - **Tech Stack** — ¿esto es lo que usas o lo que heredaste?
-   - **Roadmap** — ¿qué features faltan? ¿qué deuda técnica hay?
+2. The agent asks you to refine:
+   - **Mission** — what does the project really exist for? (may differ from what the README says)
+   - **Tech Stack** — is this what you use or what you inherited?
+   - **Roadmap** — what features are missing? what technical debt is there?
 
-3. Con la constitución lista, el feature-spec ya funciona normalmente.
+3. With the constitution ready, feature-spec works normally.
 
-### Tips para Retroactivo
+### Tips for Retroactive
 
-- **No rewritees historia.** La constitución describe el presente, no idealiza el pasado.
-- **Sé honesto en tech-stack.** Si el proyecto usa jQuery y PHP, eso pone el skill. Lo cambias cuando toque migrar.
-- **Roadmap empieza desde hoy.** Las fases miran hacia adelante, no documentan features ya hechas.
+- **Don't rewrite history.** The constitution describes the present, it doesn't idealize the past.
+- **Be honest about tech-stack.** If the project uses jQuery and PHP, that's what goes in the skill. You change it when it's time to migrate.
+- **Roadmap starts from today.** Phases look forward, they don't document already-done features.
 
-### Flujo Paso a Paso para Código Existente
+### Step-by-Step Flow for Existing Code
 
-Aquí está el workflow concreto para aplicar SDD a un proyecto que ya tiene código funcionando:
+Here is the concrete workflow for applying SDD to a project that already has working code:
 
 ```
-1. Analizar el código actual → 2. Crear constitución retroactiva → 3. Feature spec de lo próximo → 4. Implementar
+1. Analyze current code → 2. Create retroactive constitution → 3. Feature spec for what's next → 4. Implement
 ```
 
-#### Paso 1: Análisis del Estado Actual (sin agente)
+#### Step 1: Current State Analysis (without agent)
 
-Antes de involucrar al agente, tú mismo haz un inventario rápido:
+Before involving the agent, do a quick inventory yourself:
 
-- **Stack real:** ¿qué lenguajes, frameworks, DB, APIs externas usa el proyecto?
-- **Features existentes:** haz una lista de lo que ya funciona
-- **Deuda técnica:** lo que sabes que está mal y necesita arreglo
-- **README o docs:** si hay documentación existente, úsala como insumo
+- **Real stack:** what languages, frameworks, DB, external APIs does the project use?
+- **Existing features:** make a list of what already works
+- **Technical debt:** what you know is wrong and needs fixing
+- **README or docs:** if there is existing documentation, use it as input
 
-#### Paso 2: Crear la Constitución (con el agente)
+#### Step 2: Create the Constitution (with the agent)
 
-Le das al agente un prompt como:
+You give the agent a prompt like:
 
-> "Analiza este proyecto existente. Lee el código, package.json, estructura de carpetas. Luego crea una constitución en `specs/` con `mission.md`, `tech-stack.md` y `roadmap.md` que describa el proyecto tal como existe hoy. Antes de escribir, pregúntame lo que necesites."
+> "Analyze this existing project. Read the code, package.json, folder structure. Then create a constitution in `specs/` with `mission.md`, `tech-stack.md`, and `roadmap.md` that describes the project as it exists today. Before writing, ask me whatever you need."
 
-El agente debería:
-1. Explorar `package.json`, `tsconfig.json`, `Dockerfile`, `composer.json`, `Cargo.toml`, etc.
-2. Leer archivos fuente para entender la arquitectura
-3. Revisar commits recientes para entender el ritmo de trabajo
-4. Preguntarte lo que no pueda deducir del código
-5. Escribir la constitución
+The agent should:
+1. Explore `package.json`, `tsconfig.json`, `Dockerfile`, `composer.json`, `Cargo.toml`, etc.
+2. Read source files to understand the architecture
+3. Review recent commits to understand the work pace
+4. Ask you what it cannot deduce from the code
+5. Write the constitution
 
-> **Importante:** la constitución retroactiva describe el proyecto **tal cual es**, no tal como te gustaría que fuera. El `roadmap.md` sí mira hacia adelante — las features pendientes, no las ya hechas.
+> **Important:** the retroactive constitution describes the project **as it actually is**, not as you wish it were. `roadmap.md` does look forward — pending features, not already-completed ones.
 
-> **Importante para el prompt:** dile explícitamente al agente que **use su herramienta de preguntas** ( `AskUserQuestion` en Claude Code, `question` en opencode, o la que tenga tu coding agent) antes de escribir los archivos. Si no se lo pides, algunos agentes escriben directo y alucinan decisiones. Ejemplo: *"Crea la constitución en `specs/`. **Debes** usar tu herramienta de preguntas antes de escribir."*
+> **Important for the prompt:** explicitly tell the agent to **use its question tool** (`AskUserQuestion` in Claude Code, `question` in opencode, or whatever your coding agent has) before writing the files. If you don't ask, some agents write directly and hallucinate decisions. Example: *"Create the constitution in `specs/`. **You must** use your question tool before writing."*
 
-#### Paso 3: Feature Spec de lo Próximo
+#### Step 3: Feature Spec for What's Next
 
-Con la constitución lista, usas el feature-spec skill normalmente. La diferencia es que el feature-spec ahora **convive con código legacy** — y está bien.
+With the constitution ready, you use the feature-spec skill normally. The difference is that the feature-spec now **coexists with legacy code** — and that's fine.
 
-Algunas situaciones comunes:
+Some common situations:
 
-| Situación | Cómo manejarlo |
-|-----------|---------------|
-| La nueva feature toca código legacy | El `plan.md` debe incluir tareas de refactor previo o adaptación |
-| El stack real no es ideal para la nueva feature | Pregúntale al agente: "¿conviene migrar este módulo o agregar al lado?" |
-| No sabes por dónde empezar | El feature-spec interview te guía: scope → decisiones → contexto |
-| El proyecto no tiene tests | La primera fase del roadmap puede ser "Agregar tests a módulo X" |
+| Situation | How to handle it |
+|-----------|-----------------|
+| The new feature touches legacy code | `plan.md` must include refactoring or adaptation tasks |
+| The real stack is not ideal for the new feature | Ask the agent: "should we migrate this module or add alongside?" |
+| You don't know where to start | The feature-spec interview guides you: scope → decisions → context |
+| The project has no tests | The first roadmap phase can be "Add tests to module X" |
 
-#### Paso 4: Implementación en un Proyecto Mixto
+#### Step 4: Implementation in a Mixed Project
 
-Tres reglas para sobrevivir:
+Three rules to survive:
 
-1. **No mezcles refactor con features nuevas.** Si necesitas refactorizar, que sea una fase separada en el roadmap o una tarea explícita en el plan.md.
-2. **No toques código que no está en la spec.** Si el feature-spec dice "agregar endpoint GET /api/users", solo tocas eso. Mejorar el código legacy al lado es tentador pero te saca del foco.
-3. **Valida contra lo que existe.** Si el código legacy no tiene tests, la validación manual (probar la feature existente + la nueva) es suficiente.
+1. **Don't mix refactor with new features.** If you need to refactor, make it a separate phase in the roadmap or an explicit task in plan.md.
+2. **Don't touch code that isn't in the spec.** If the feature-spec says "add GET /api/users endpoint", you only touch that. Improving the legacy code on the side is tempting but takes you off focus.
+3. **Validate against what exists.** If the legacy code has no tests, manual validation (testing the existing feature + the new one) is enough.
 
-### Errores Comunes al Empezar SDD en Proyectos Legacy
+### Common Mistakes When Starting SDD in Legacy Projects
 
-| Error | Consecuencia | Solución |
-|-------|-------------|----------|
-| Querer refactorizar todo antes de empezar | Nunca empiezas | Haz una fase "refactor" en el roadmap si es urgente, pero no la hagas requisito |
-| Poner todo el código legacy en el roadmap | Roadmap eterno | El roadmap es para lo que **falta**, no para lo que ya existe |
-| Ignorar el stack real en la constitución | Los specs describen features imposibles de implementar | Sé honesto. Si el stack apesta, el roadmap mostrará las migraciones necesarias |
-| No hacer preguntas al agente | El agente alucina decisiones que no le diste | Siempre responde las 3 preguntas del feature-spec antes de que escriba |
+| Mistake | Consequence | Solution |
+|---------|-------------|----------|
+| Wanting to refactor everything before starting | You never start | Make a "refactor" phase in the roadmap if urgent, but don't make it a requirement |
+| Putting all legacy code in the roadmap | Eternal roadmap | The roadmap is for what's **missing**, not for what already exists |
+| Ignoring the real stack in the constitution | Specs describe impossible features | Be honest. If the stack sucks, the roadmap will show the necessary migrations |
+| Not asking the agent questions | The agent hallucinates decisions you didn't give | Always answer the 3 feature-spec questions before it writes |
 
 ---
 
-## ¿Cuándo Crear Branches?
+## When to Create Branches
 
-| Momento | Acción |
-|---------|--------|
-| Nueva feature | `git checkout -b phase-N-nombre` (lo hace feature-spec) |
-| Hotfix en producción | Branch desde main, no desde tu feature branch |
-| Experimentar | Branch aparte, sin spec. Si funciona, lo conviertes en feature spec |
-| Cambiar la constitución | `git checkout -b update-constitution`. Se mergea como cualquier cambio |
+| Moment | Action |
+|--------|--------|
+| New feature | `git checkout -b phase-N-name` (done by feature-spec) |
+| Production hotfix | Branch from main, not from your feature branch |
+| Experimenting | Separate branch, no spec. If it works, convert it to a feature spec |
+| Changing the constitution | `git checkout -b update-constitution`. Merged like any change |
 
-**Regla:** cada feature = un branch. No trabajes varias features en el mismo branch.
-
----
-
-## Preguntas Frecuentes de Este Thread
-
-### ¿Qué es la Constitución?
-Son 3 documentos que definen por qué existe el proyecto, con qué tecnologías se construye y en qué orden se implementa. Es la base de todo el flujo SDD.
-
-### ¿Qué contiene el AskUserQuestion tool?
-Es la herramienta del agente para hacerte preguntas. En la constitución pregunta sobre misión, tech stack y roadmap. En feature-spec pregunta sobre scope, decisiones y contexto. El agente **nunca debe escribir hasta que respondas**.
-
-
-### ¿Y si quiero empezar un proyecto nuevo, digamos de ciberseguridad?
-Usas el mismo flujo: scaffold mínimo (package.json, tsconfig.json, src/index.ts, README.md), creas la constitución con el agente, y sigues el pipeline SDD. El tema del proyecto (ciberseguridad, web, CLI, lo que sea) no cambia el flujo — solo cambia el contenido de los specs.
-
-### ¿Qué pasa si el proyecto no empezó con SDD?
-Vuelta a la sección "Proyectos con Código Existente (Retroactivo)" — el agente analiza tu código existente y deduce la constitución.
-
-### ¿El feature-spec sirve para proyectos sin constitución?
-No. El feature-spec necesita `mission.md` y `tech-stack.md` para alinear la spec. Sin constitución, no tiene contexto. Primero crea la constitución retroactiva.
+**Rule:** each feature = one branch. Don't work on multiple features in the same branch.
 
 ---
 
-## Estructura Final del Proyecto
+## Frequently Asked Questions
+
+### What is the Constitution?
+It's 3 documents that define why the project exists, what technologies it's built with, and in what order it is implemented. It's the foundation of the entire SDD workflow.
+
+### What does the AskUserQuestion tool contain?
+It's the agent's tool for asking you questions. In the constitution it asks about mission, tech stack, and roadmap. In feature-spec it asks about scope, decisions, and context. The agent **must never write until you answer**.
+
+### What if I want to start a new project, say in cybersecurity?
+You use the same workflow: minimal scaffold (package.json, tsconfig.json, src/index.ts, README.md), create the constitution with the agent, and follow the SDD pipeline. The project topic (cybersecurity, web, CLI, whatever) doesn't change the workflow — only the content of the specs changes.
+
+### What if the project didn't start with SDD?
+Refer back to the "Projects with Existing Code (Retroactive)" section — the agent analyzes your existing code and deduces the constitution.
+
+### Does feature-spec work for projects without a constitution?
+No. Feature-spec needs `mission.md` and `tech-stack.md` to align the spec. Without a constitution, it has no context. First create the retroactive constitution.
+
+---
+
+## Final Project Structure
 
 ```
-mi-proyecto/
+my-project/
 ├── specs/
-│   ├── mission.md              ← constitución
-│   ├── tech-stack.md           ← constitución
-│   ├── roadmap.md              ← constitución
+│   ├── mission.md              ← constitution
+│   ├── tech-stack.md           ← constitution
+│   ├── roadmap.md              ← constitution
 │   ├── YYYY-MM-DD-feature-1/   ← feature spec
 │   │   ├── requirements.md
 │   │   ├── plan.md
 │   │   └── validation.md
-│   └── YYYY-MM-DD-feature-2/   ← siguiente feature
+│   └── YYYY-MM-DD-feature-2/   ← next feature
 │       ├── requirements.md
 │       ├── plan.md
 │       └── validation.md
-├── src/                        ← código real
-├── skills/                     ← skills del agente
+├── src/                        ← actual code
+├── skills/                     ← agent skills
 │   ├── changelog/
 │   │   ├── SKILL.md
 │   │   └── scripts/changelog.py
 │   └── feature-spec/
 │       └── SKILL.md
-├── prompts.md                  ← los prompts que usas con el agente
-├── CHANGELOG.md                ← generado por el skill
-├── GUIDE.md                    ← este archivo
-└── README.md                   ← stakeholder input + contexto
+├── prompts.md                  ← the prompts you use with the agent
+├── CHANGELOG.md                ← generated by the skill
+├── GUIDE.md                    ← this file
+└── README.md                   ← stakeholder input + context
 ```
