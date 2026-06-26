@@ -1,52 +1,34 @@
-# Spec-Driven Development with Agentic Coding Assistants
+# Spec-Driven Development Kit
 
-This repository contains the companion code for the DeepLearning.AI Spec-Driven Development course. Each video folder holds the complete project state you need to follow along with that video.
+**Plantilla para iniciar cualquier proyecto usando Spec-Driven Development con AI coding agents.**
 
-## Other DeepLearning.AI Resources
-> :mortar_board: **Keep learning** → [Explore all DeepLearning.AI courses](https://www.deeplearning.ai/courses/) — taught by the people building the future of AI. Find your next one.
->
-> :computer: **Explore more course artifacts** → [Browse the DeepLearning.AI course artifacts repo](https://github.com/https-deeplearning-ai/deeplearning-ai) to find notebooks, projects, and notes from other courses across the DeepLearning.AI library.
+Este repo contiene los elementos esenciales del curso [Spec-Driven Development de DeepLearning.AI](https://www.deeplearning.ai/courses/), limpios de código específico de AgentClinic. Úsalo como punto de partida para nuevos proyectos.
 
-## How to use this repo
+## ¿Qué incluye?
 
-The simplest way to take this course is to start at Video 5 and follow along with each video, building the project as you go.
+| Carpeta | Contenido |
+|---------|-----------|
+| `prompts/` | Todos los prompts del curso organizados por lección |
+| `example_specs/` | Ejemplos de documentos de especificación (misión, tech stack) |
+| `skills/` | Skills reutilizables para el agente (changelog, feature-spec) |
 
-Each `VideoNN_*` folder contains a snapshot of the AgentClinic project as it should look **at the start** of that video. You don't need to copy these folders each time -- they're here so you can jump into any video without having completed the previous ones. If you want to start fresh at a specific video, just copy that folder into your own working directory:
+## Cómo usar
+
+1. Copia esta carpeta como base para tu proyecto:
 
 ```bash
-cp -r Video06_Feature_Specification/ my-agentclinic/
-cd my-agentclinic
-npm install
+cp -r sc-spec-driven-development-files/ mi-nuevo-proyecto/
+cd mi-nuevo-proyecto
 ```
 
-## Video overview
+2. Escribe tu `README.md` con el contexto de tu proyecto y stakeholder input.
 
-Each video folder contains the **complete starter code** for that video and **all prompts used** throughout it.
+3. Usa un AI coding agent (opencode, Claude Code, etc.) con los prompts de `prompts/` para crear tu constitución (`specs/mission.md`, `tech-stack.md`, `roadmap.md`).
 
-| Folder | Video | What you're starting with |
-|--------|-------|--------------------------|
-| Video05_Creating_the_Constitution | Creating the Constitution | Empty project scaffold (package.json, tsconfig.json, src/index.ts) |
-| Video06_Feature_Specification | Feature Specification | Constitution in place (specs/mission.md, tech-stack.md, roadmap.md) |
-| Video07_Feature_Implementation | Feature Implementation | Constitution + Phase 1 feature spec (plan.md, requirements.md, validation.md) |
-| Video08_Feature_Validation | Feature Validation | Phase 1 "Hello Hono" fully implemented with layout components |
-| Video09_Project_Replanning | Project Replanning | Phase 1 merged to main, ready for replanning |
-| Video10_The_second_feature_phase | The Second Feature Phase | Replanning complete (testing, responsive design, changelog skill added) |
-| Video11_The_MVP | The MVP | Phase 2 "Agents & Ailments" merged, full app ready for MVP sprint |
-| Video12_Legacy_support | Legacy Support | MVP fully implemented, ready for legacy SDD introduction |
-| Video13_Build_your_own_workflow | Build Your Own Workflow | Rebuilt legacy constitution + Feedback Form feature implemented |
-| Video14_Agents_replaceability | Agent Replaceability | Feedback Form merged, feature-spec skill created, next feature spec drafted, backlog/ with research notes |
+4. Sigue el flujo SDD: Constitución → Feature Specs → Implementación → Validación.
 
-Videos 2-4 (Why Spec-Driven Development, Workflow Overview, and Setup) are conceptual and do not have starter code.
-
-## Other directories
-
-- **`prompts/`** -- All video prompts in one place. Each file contains the numbered prompts for that video. Copies also live inside each `VideoNN_*/` folder as `prompts.md`.
-- **`skills/`** -- Reusable agent skills developed during the course (changelog, feature-spec).
-- **`example_specs/`** -- Example specification documents referenced in the course.
-
-## Prerequisites
+## Requisitos
 
 - Node.js (v18+)
 - Git
-- A coding agent (the course uses Claude Code, but the workflow is agent-agnostic)
-- An IDE or editor (the course uses [WebStorm](https://www.jetbrains.com/webstorm/download/))
+- Un AI coding agent
